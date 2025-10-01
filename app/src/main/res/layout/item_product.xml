@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/card_margin"
+    android:background="@drawable/card_background"
+    android:elevation="@dimen/card_elevation"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/card_padding_small"
+        android:minHeight="@dimen/product_image_size">
+
+        <ImageView
+            android:id="@+id/imgProduct"
+            android:layout_width="@dimen/product_image_size"
+            android:layout_height="@dimen/product_image_size"
+            android:layout_marginEnd="@dimen/spacing_medium"
+            android:layout_gravity="center_vertical"
+            android:scaleType="centerCrop"
+            android:src="@android:drawable/ic_menu_gallery"
+            android:background="@android:color/darker_gray"
+            android:contentDescription="Product image" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvProductName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Nama Produk"
+                android:textSize="@dimen/text_size_medium"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:maxLines="2"
+                android:ellipsize="end" />
+
+            <TextView
+                android:id="@+id/tvProductPrice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Rp 0"
+                android:textSize="@dimen/text_size_small"
+                android:textColor="@android:color/holo_green_dark"
+                android:layout_marginTop="@dimen/spacing_extra_small" />
+
+            <TextView
+                android:id="@+id/tvProductStock"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Stok: 0"
+                android:textSize="@dimen/text_size_extra_small"
+                android:textColor="@android:color/darker_gray"
+                android:layout_marginTop="@dimen/spacing_extra_small" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center_vertical"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/btnAddToCart"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/button_height_small"
+                android:text="+ Keranjang"
+                android:textSize="@dimen/text_size_extra_small"
+                android:backgroundTint="@android:color/holo_orange_dark"
+                android:layout_marginBottom="@dimen/spacing_extra_small"
+                android:minHeight="@dimen/button_height_small"
+                android:paddingHorizontal="@dimen/spacing_medium" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <Button
+                    android:id="@+id/btnEdit"
+                    android:layout_width="@dimen/button_small_size"
+                    android:layout_height="@dimen/button_small_size"
+                    android:text="+"
+                    android:textSize="@dimen/text_size_medium"
+                    android:textStyle="bold"
+                    android:backgroundTint="@android:color/holo_blue_light"
+                    android:textColor="@android:color/white"
+                    android:layout_marginEnd="@dimen/spacing_extra_small"
+                    android:gravity="center" />
+
+                <Button
+                    android:id="@+id/btnDelete"
+                    android:layout_width="@dimen/button_small_size"
+                    android:layout_height="@dimen/button_small_size"
+                    android:text="-"
+                    android:textSize="@dimen/text_size_medium"
+                    android:textStyle="bold"
+                    android:backgroundTint="@android:color/holo_red_light"
+                    android:textColor="@android:color/white"
+                    android:gravity="center" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

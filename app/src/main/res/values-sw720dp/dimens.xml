@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Dimensions for large tablets and desktop (720dp and above) -->
+<resources>
+    <!-- Spacing -->
+    <dimen name="spacing_extra_small">8dp</dimen>
+    <dimen name="spacing_small">16dp</dimen>
+    <dimen name="spacing_medium">20dp</dimen>
+    <dimen name="spacing_large">24dp</dimen>
+    <dimen name="spacing_extra_large">40dp</dimen>
+    <dimen name="spacing_huge">48dp</dimen>
+
+    <!-- Text Sizes -->
+    <dimen name="text_size_extra_small">16sp</dimen>
+    <dimen name="text_size_small">18sp</dimen>
+    <dimen name="text_size_medium">20sp</dimen>
+    <dimen name="text_size_large">22sp</dimen>
+    <dimen name="text_size_extra_large">24sp</dimen>
+    <dimen name="text_size_title">32sp</dimen>
+    <dimen name="text_size_header">36sp</dimen>
+
+    <!-- Button Sizes -->
+    <dimen name="button_height_small">48dp</dimen>
+    <dimen name="button_height_medium">56dp</dimen>
+    <dimen name="button_height_large">64dp</dimen>
+    <dimen name="button_small_size">56dp</dimen>
+    <dimen name="button_medium_size">64dp</dimen>
+
+    <!-- Card and Layout -->
+    <dimen name="card_margin">16dp</dimen>
+    <dimen name="card_padding">24dp</dimen>
+    <dimen name="card_padding_small">20dp</dimen>
+    <dimen name="card_elevation">8dp</dimen>
+
+    <!-- Image Sizes -->
+    <dimen name="cart_image_size">96dp</dimen>
+    <dimen name="product_image_size">120dp</dimen>
+    <dimen name="logo_size">160dp</dimen>
+
+    <!-- Specific Widths -->
+    <dimen name="qty_text_width">64dp</dimen>
+    <dimen name="login_max_width">600dp</dimen>
+
+    <!-- Minimum Touch Target -->
+    <dimen name="min_touch_target">48dp</dimen>
+</resources>

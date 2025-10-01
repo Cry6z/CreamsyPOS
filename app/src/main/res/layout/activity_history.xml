@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/spacing_large"
+    android:background="#f5f5f5">
+
+    <!-- Header -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginBottom="@dimen/spacing_large"
+        android:background="@drawable/card_background"
+        android:padding="@dimen/card_padding"
+        android:elevation="@dimen/card_elevation">
+
+        <!-- Title Row -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="📊 Riwayat Transaksi"
+            android:textSize="@dimen/text_size_title"
+            android:textStyle="bold"
+            android:textColor="#333333"
+            android:gravity="center"
+            android:layout_marginBottom="@dimen/spacing_medium" />
+
+        <!-- Buttons Row -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/btnBack"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/button_height_medium"
+                android:layout_weight="1"
+                android:text="← Kembali"
+                android:textColor="@android:color/white"
+                android:backgroundTint="#FF6B35"
+                android:textSize="10sp"
+                android:layout_marginEnd="@dimen/spacing_small"
+                android:minHeight="@dimen/button_height_medium"
+                android:paddingHorizontal="4dp"
+                android:maxLines="1"
+                android:ellipsize="end" />
+
+            <Button
+                android:id="@+id/btnClearHistory"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/button_height_medium"
+                android:layout_weight="1"
+                android:text="🗑️ Hapus Semua"
+                android:textColor="@android:color/white"
+                android:backgroundTint="#FF4444"
+                android:textSize="10sp"
+                android:layout_marginStart="@dimen/spacing_small"
+                android:minHeight="@dimen/button_height_medium"
+                android:paddingHorizontal="4dp"
+                android:maxLines="1"
+                android:ellipsize="end" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- Statistics Card -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/spacing_large"
+        android:background="@drawable/card_background"
+        android:elevation="@dimen/card_elevation"
+        android:orientation="vertical">
+
+        <!-- Statistics Header -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="📈 Statistik Penjualan"
+            android:textSize="@dimen/text_size_medium"
+            android:textStyle="bold"
+            android:textColor="#333333"
+            android:padding="@dimen/card_padding"
+            android:paddingBottom="@dimen/spacing_small" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingHorizontal="@dimen/card_padding"
+            android:paddingBottom="@dimen/card_padding">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="120dp"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:background="@drawable/stats_card_orange"
+                android:padding="@dimen/spacing_large"
+                android:layout_marginEnd="@dimen/spacing_small">
+
+                <TextView
+                    android:id="@+id/tvTransactionCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textSize="@dimen/text_size_header"
+                    android:textStyle="bold"
+                    android:textColor="#FF6B35"
+                    android:layout_marginBottom="@dimen/spacing_small" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Total Transaksi"
+                    android:textSize="@dimen/text_size_small"
+                    android:textColor="#666666"
+                    android:textStyle="bold"
+                    android:gravity="center" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="120dp"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:background="@drawable/stats_card_green"
+                android:padding="@dimen/spacing_large"
+                android:layout_marginStart="@dimen/spacing_small">
+
+                <TextView
+                    android:id="@+id/tvTotalRevenue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Rp 0"
+                    android:textSize="@dimen/text_size_large"
+                    android:textStyle="bold"
+                    android:textColor="#4CAF50"
+                    android:layout_marginBottom="@dimen/spacing_small"
+                    android:gravity="center" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Total Pendapatan"
+                    android:textSize="@dimen/text_size_small"
+                    android:textColor="#666666"
+                    android:textStyle="bold"
+                    android:gravity="center" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- History List Container -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:background="@drawable/card_background"
+        android:elevation="@dimen/card_elevation">
+
+        <!-- List Header -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="📋 Daftar Transaksi"
+            android:textSize="@dimen/text_size_medium"
+            android:textStyle="bold"
+            android:textColor="#333333"
+            android:padding="@dimen/card_padding"
+            android:paddingBottom="@dimen/spacing_small"
+            android:background="#F8F9FA" />
+
+        <!-- Empty State -->
+        <LinearLayout
+            android:id="@+id/layoutEmptyState"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:visibility="gone"
+            android:padding="@dimen/spacing_huge">
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@android:drawable/ic_menu_recent_history"
+                android:alpha="0.4"
+                android:layout_marginBottom="@dimen/spacing_extra_large"
+                android:background="@drawable/circle_background"
+                android:backgroundTint="#F5F5F5"
+                android:padding="@dimen/spacing_extra_large"
+                android:contentDescription="Empty history icon" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="📊 Belum Ada Transaksi"
+                android:textSize="@dimen/text_size_extra_large"
+                android:textStyle="bold"
+                android:textColor="#666666"
+                android:layout_marginBottom="@dimen/spacing_small" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Transaksi yang sudah selesai akan muncul di sini.\nMulai berjualan untuk melihat riwayat transaksi!"
+                android:textSize="@dimen/text_size_small"
+                android:textColor="#999999"
+                android:gravity="center"
+                android:lineSpacingExtra="@dimen/spacing_extra_small" />
+
+        </LinearLayout>
+
+        <!-- History List -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewHistory"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical"
+            android:padding="@dimen/spacing_small"
+            android:clipToPadding="false" />
+
+    </LinearLayout>
+
+</LinearLayout>

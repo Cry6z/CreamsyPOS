@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:fillViewport="true">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/spacing_extra_large"
+    android:gravity="center">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:maxWidth="@dimen/login_max_width">
+
+        <!-- Logo/Title -->
+        <ImageView
+            android:layout_width="@dimen/logo_size"
+            android:layout_height="@dimen/logo_size"
+            android:src="@mipmap/ic_launcher"
+            android:layout_marginBottom="@dimen/spacing_extra_large"
+            android:contentDescription="Logo Creamsy" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="🍦 Creamsy POS"
+            android:textSize="@dimen/text_size_header"
+            android:textStyle="bold"
+            android:textColor="#2E7D32"
+            android:layout_marginBottom="@dimen/spacing_small"
+            android:gravity="center" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sistem Point of Sale Toko Es Krim"
+            android:textSize="@dimen/text_size_small"
+            android:textColor="@android:color/darker_gray"
+            android:layout_marginBottom="@dimen/spacing_huge"
+            android:gravity="center"
+            android:paddingHorizontal="@dimen/spacing_medium" />
+
+        <!-- Login Form -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacing_large"
+            app:boxBackgroundMode="outline"
+            app:boxStrokeColor="@android:color/holo_blue_dark"
+            app:hintTextColor="@android:color/holo_blue_dark">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etUsername"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Username"
+                android:inputType="text"
+                android:maxLines="1"
+                android:textSize="@dimen/text_size_medium"
+                android:minHeight="@dimen/min_touch_target" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacing_huge"
+            app:boxBackgroundMode="outline"
+            app:boxStrokeColor="@android:color/holo_blue_dark"
+            app:hintTextColor="@android:color/holo_blue_dark"
+            app:endIconMode="password_toggle">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Password"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:textSize="@dimen/text_size_medium"
+                android:minHeight="@dimen/min_touch_target" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Login Button -->
+        <Button
+            android:id="@+id/btnLogin"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_height_large"
+            android:text="LOGIN"
+            android:textSize="@dimen/text_size_medium"
+            android:textStyle="bold"
+            android:backgroundTint="@android:color/holo_blue_dark"
+            android:textColor="@android:color/white"
+            android:layout_marginBottom="@dimen/spacing_extra_large"
+            android:minHeight="@dimen/min_touch_target" />
+
+        <!-- Default Login Info -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Login Default:\nUsername: admin\nPassword: admin123"
+            android:textSize="@dimen/text_size_extra_small"
+            android:textColor="@android:color/darker_gray"
+            android:gravity="center"
+            android:lineSpacingExtra="@dimen/spacing_extra_small"
+            android:paddingHorizontal="@dimen/spacing_medium" />
+
+    </LinearLayout>
+
+</LinearLayout>
+
+</ScrollView>
+
