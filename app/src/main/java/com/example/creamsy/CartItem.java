@@ -1,9 +1,12 @@
 package com.example.creamsy;
 
 public class CartItem {
-    private int id;
-    private int productId;
+    private String id; // Changed to String for UUID support
+    private String productId; // Changed to String for UUID support
     private int quantity;
+    private String createdAt;
+    
+    // These fields will be populated from joined product data
     private String productName;
     private double productPrice;
     private String productImageUri;
@@ -11,7 +14,7 @@ public class CartItem {
     public CartItem() {
     }
 
-    public CartItem(int id, int productId, int quantity, String productName, double productPrice, String productImageUri) {
+    public CartItem(String id, String productId, int quantity, String productName, double productPrice, String productImageUri) {
         this.id = id;
         this.productId = productId;
         this.quantity = quantity;
@@ -19,21 +22,31 @@ public class CartItem {
         this.productPrice = productPrice;
         this.productImageUri = productImageUri;
     }
+    
+    // Legacy constructor for backward compatibility with int IDs
+    public CartItem(int id, int productId, int quantity, String productName, double productPrice, String productImageUri) {
+        this.id = String.valueOf(id);
+        this.productId = String.valueOf(productId);
+        this.quantity = quantity;
+        this.productName = productName;
+        this.productPrice = productPrice;
+        this.productImageUri = productImageUri;
+    }
 
     // Getters and Setters
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public int getProductId() {
+    public String getProductId() {
         return productId;
     }
 
-    public void setProductId(int productId) {
+    public void setProductId(String productId) {
         this.productId = productId;
     }
 
@@ -67,6 +80,14 @@ public class CartItem {
 
     public void setProductImageUri(String productImageUri) {
         this.productImageUri = productImageUri;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
     }
 
     public double getTotalPrice() {

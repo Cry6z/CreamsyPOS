@@ -1,18 +1,20 @@
 package com.example.creamsy;
 
 public class Product {
-    private int id;
+    private String id; // Changed to String for UUID support
     private String nama;
     private double harga;
     private int stok;
     private String fotoUri;
+    private String createdAt;
+    private String updatedAt;
 
     // Constructor kosong
     public Product() {
     }
 
     // Constructor lengkap
-    public Product(int id, String nama, double harga, int stok, String fotoUri) {
+    public Product(String id, String nama, double harga, int stok, String fotoUri) {
         this.id = id;
         this.nama = nama;
         this.harga = harga;
@@ -29,11 +31,11 @@ public class Product {
     }
 
     // Getter dan Setter
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -69,10 +71,26 @@ public class Product {
         this.fotoUri = fotoUri;
     }
 
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(String updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
     @Override
     public String toString() {
         return "Product{" +
-                "id=" + id +
+                "id='" + id + '\'' +
                 ", nama='" + nama + '\'' +
                 ", harga=" + harga +
                 ", stok=" + stok +

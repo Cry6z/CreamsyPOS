@@ -43,6 +43,15 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.recyclerview)
     implementation(libs.androidx.cardview)
+    
+    // Supabase dependencies
+    implementation("io.github.jan-tennert.supabase:postgrest-kt:3.2.4")
+    implementation("io.github.jan-tennert.supabase:gotrue-kt:2.6.1")
+    implementation("io.github.jan-tennert.supabase:realtime-kt:2.6.0")
+    implementation("io.ktor:ktor-client-android:2.3.7")
+    implementation("io.ktor:ktor-client-core:2.3.7")
+    implementation("io.ktor:ktor-utils:2.3.7")
+    
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

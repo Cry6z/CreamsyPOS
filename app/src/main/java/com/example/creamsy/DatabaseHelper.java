@@ -10,7 +10,7 @@ import java.util.List;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "creamsy.db";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
 
     // Tabel Produk
     private static final String TABLE_PRODUCTS = "products";
@@ -66,7 +66,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String createTransactionsTable = "CREATE TABLE " + TABLE_TRANSACTIONS + "("
                 + COLUMN_TRANSACTION_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + COLUMN_TOTAL + " REAL NOT NULL,"
-                + COLUMN_DATE + " TEXT NOT NULL"
+                + COLUMN_DATE + " INTEGER NOT NULL"
                 + ")";
         db.execSQL(createTransactionsTable);
 
@@ -120,7 +120,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 Product product = new Product();
-                product.setId(cursor.getInt(0));
+                product.setId(String.valueOf(cursor.getInt(0)));
                 product.setNama(cursor.getString(1));
                 product.setHarga(cursor.getDouble(2));
                 product.setStok(cursor.getInt(3));
@@ -142,7 +142,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (cursor != null)
             cursor.moveToFirst();
 
-        Product product = new Product(cursor.getInt(0), cursor.getString(1), cursor.getDouble(2), cursor.getInt(3), cursor.getString(4));
+        Product product = new Product(String.valueOf(cursor.getInt(0)), cursor.getString(1), cursor.getDouble(2), cursor.getInt(3), cursor.getString(4));
         cursor.close();
         db.close();
         return product;
@@ -209,8 +209,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 CartItem item = new CartItem();
-                item.setId(cursor.getInt(0));
-                item.setProductId(cursor.getInt(1));
+                item.setId(String.valueOf(cursor.getInt(0)));
+                item.setProductId(String.valueOf(cursor.getInt(1)));
                 item.setQuantity(cursor.getInt(2));
                 item.setProductName(cursor.getString(3));
                 item.setProductPrice(cursor.getDouble(4));

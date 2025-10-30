@@ -81,7 +81,7 @@ public class LoginActivity extends AppCompatActivity {
     private void saveLoginSession(User user) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("isLoggedIn", true);
-        editor.putInt("userId", user.getId());
+        editor.putString("userId", user.getId());
         editor.putString("username", user.getUsername());
         editor.putString("fullName", user.getFullName());
         editor.apply();

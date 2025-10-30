@@ -25,14 +25,14 @@
         <ImageView
             android:layout_width="@dimen/logo_size"
             android:layout_height="@dimen/logo_size"
-            android:src="@mipmap/ic_launcher"
+            android:src="@drawable/creamsylogo"
             android:layout_marginBottom="@dimen/spacing_extra_large"
             android:contentDescription="Logo Creamsy" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="🍦 Creamsy POS"
+            android:text="Creamsy POS"
             android:textSize="@dimen/text_size_header"
             android:textStyle="bold"
             android:textColor="#2E7D32"

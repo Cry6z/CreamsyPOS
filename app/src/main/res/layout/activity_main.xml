@@ -41,7 +41,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="🍦 Creamsy POS"
+                    android:text="Creamsy POS"
                     android:textSize="@dimen/text_size_title"
                     android:textStyle="bold"
                     android:textColor="#2E7D32"

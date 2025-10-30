@@ -6,8 +6,12 @@ import java.util.Date;
 import java.util.Locale;
 
 public class Transaction {
-    private int transactionId;
+    private String transactionId; // Changed to String for UUID support
     private double total;
+    private String createdAt;
+    private String updatedAt;
+    
+    // For backward compatibility with existing code
     private long date;
     private String formattedDate;
     private String formattedTotal;
@@ -15,8 +19,17 @@ public class Transaction {
     public Transaction() {
     }
 
-    public Transaction(int transactionId, double total, long date) {
+    public Transaction(String transactionId, double total, long date) {
         this.transactionId = transactionId;
+        this.total = total;
+        this.date = date;
+        this.formattedDate = formatDate(date);
+        this.formattedTotal = formatCurrency(total);
+    }
+    
+    // Legacy constructor for backward compatibility
+    public Transaction(int transactionId, double total, long date) {
+        this.transactionId = String.valueOf(transactionId);
         this.total = total;
         this.date = date;
         this.formattedDate = formatDate(date);
@@ -31,12 +44,17 @@ public class Transaction {
     }
 
     // Getters and Setters
-    public int getTransactionId() {
+    public String getTransactionId() {
         return transactionId;
     }
 
-    public void setTransactionId(int transactionId) {
+    public void setTransactionId(String transactionId) {
         this.transactionId = transactionId;
+    }
+    
+    // Legacy method for backward compatibility
+    public void setTransactionId(int transactionId) {
+        this.transactionId = String.valueOf(transactionId);
     }
 
     public double getTotal() {
@@ -63,6 +81,22 @@ public class Transaction {
 
     public String getFormattedTotal() {
         return formattedTotal;
+    }
+    
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(String updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     // Helper methods for formatting

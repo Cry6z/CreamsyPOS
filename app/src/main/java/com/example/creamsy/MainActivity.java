@@ -27,6 +27,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -34,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements ProductAdapter.Pr
 
     private RecyclerView recyclerView;
     private Button btnAddProduct, btnCart, btnHistory, btnLogout;
-    private DatabaseHelper db;
+    private SupabaseRepository repository;
     private ProductAdapter adapter;
     private SharedPreferences sharedPreferences;
     private TextView tvWelcome;
@@ -66,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements ProductAdapter.Pr
             return;
         }
 
-        db = new DatabaseHelper(this);
+        repository = new SupabaseRepository(this);
 
         recyclerView = findViewById(R.id.recyclerViewProducts);
         btnAddProduct = findViewById(R.id.btnAddProduct);
@@ -77,7 +78,9 @@ public class MainActivity extends AppCompatActivity implements ProductAdapter.Pr
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        adapter = new ProductAdapter(this, db.getAllProducts(), this);
+        // Initialize adapter with empty list first, then load data
+        adapter = new ProductAdapter(this, new ArrayList<>(), this);
+        loadProducts();
         recyclerView.setAdapter(adapter);
 
         btnAddProduct.setOnClickListener(v -> showAddOrEditDialog(null));
@@ -102,13 +105,33 @@ public class MainActivity extends AppCompatActivity implements ProductAdapter.Pr
     }
 
     private void refreshList() {
-        List<Product> products = db.getAllProducts();
-        adapter.updateData(products);
+        loadProducts();
+    }
+    
+    private void loadProducts() {
+        repository.getAllProducts().thenAccept(products -> {
+            runOnUiThread(() -> {
+                adapter.updateData(products);
+            });
+        }).exceptionally(throwable -> {
+            runOnUiThread(() -> {
+                Toast.makeText(MainActivity.this, "Error loading products: " + throwable.getMessage(), Toast.LENGTH_SHORT).show();
+            });
+            return null;
+        });
     }
 
     private void updateCartButtonCount() {
-        int count = db.getCartItemCount();
-        btnCart.setText("🛒 Keranjang (" + count + ")");
+        repository.getCartItems().thenAccept(cartItems -> {
+            runOnUiThread(() -> {
+                btnCart.setText("🛒 Keranjang (" + cartItems.size() + ")");
+            });
+        }).exceptionally(throwable -> {
+            runOnUiThread(() -> {
+                btnCart.setText("🛒 Keranjang (0)");
+            });
+            return null;
+        });
     }
 
     private void showAddOrEditDialog(@Nullable Product toEdit) {
@@ -172,18 +195,36 @@ public class MainActivity extends AppCompatActivity implements ProductAdapter.Pr
 
             if (toEdit == null) {
                 Product p = new Product(name, price, stock, tempSelectedImageUri);
-                db.addProduct(p);
-                Toast.makeText(this, "Produk ditambahkan", Toast.LENGTH_SHORT).show();
+                repository.addProduct(p).thenAccept(product -> {
+                    runOnUiThread(() -> {
+                        Toast.makeText(MainActivity.this, "Produk ditambahkan", Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+                        refreshList();
+                    });
+                }).exceptionally(throwable -> {
+                    runOnUiThread(() -> {
+                        Toast.makeText(MainActivity.this, "Error adding product: " + throwable.getMessage(), Toast.LENGTH_SHORT).show();
+                    });
+                    return null;
+                });
             } else {
                 toEdit.setNama(name);
                 toEdit.setHarga(price);
                 toEdit.setStok(stock);
                 toEdit.setFotoUri(tempSelectedImageUri);
-                db.updateProduct(toEdit);
-                Toast.makeText(this, "Produk diperbarui", Toast.LENGTH_SHORT).show();
+                repository.updateProduct(toEdit).thenAccept(product -> {
+                    runOnUiThread(() -> {
+                        Toast.makeText(MainActivity.this, "Produk diperbarui", Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+                        refreshList();
+                    });
+                }).exceptionally(throwable -> {
+                    runOnUiThread(() -> {
+                        Toast.makeText(MainActivity.this, "Error updating product: " + throwable.getMessage(), Toast.LENGTH_SHORT).show();
+                    });
+                    return null;
+                });
             }
-            dialog.dismiss();
-            refreshList();
         });
 
         dialog.show();
@@ -197,14 +238,31 @@ public class MainActivity extends AppCompatActivity implements ProductAdapter.Pr
         }
         
         // Reduce stock first
-        if (db.reduceProductStock(product.getId(), 1)) {
-            db.addToCart(product.getId(), 1);
-            updateCartButtonCount();
-            refreshList(); // Refresh to show updated stock
-            Toast.makeText(this, "Ditambahkan ke keranjang", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this, "Gagal mengurangi stok", Toast.LENGTH_SHORT).show();
-        }
+        repository.reduceProductStock(product.getId(), 1).thenAccept(success -> {
+            if (success) {
+                repository.addToCart(product.getId(), 1).thenAccept(result -> {
+                    runOnUiThread(() -> {
+                        updateCartButtonCount();
+                        refreshList(); // Refresh to show updated stock
+                        Toast.makeText(MainActivity.this, "Ditambahkan ke keranjang", Toast.LENGTH_SHORT).show();
+                    });
+                }).exceptionally(throwable -> {
+                    runOnUiThread(() -> {
+                        Toast.makeText(MainActivity.this, "Error adding to cart: " + throwable.getMessage(), Toast.LENGTH_SHORT).show();
+                    });
+                    return null;
+                });
+            } else {
+                runOnUiThread(() -> {
+                    Toast.makeText(MainActivity.this, "Gagal mengurangi stok", Toast.LENGTH_SHORT).show();
+                });
+            }
+        }).exceptionally(throwable -> {
+            runOnUiThread(() -> {
+                Toast.makeText(MainActivity.this, "Error reducing stock: " + throwable.getMessage(), Toast.LENGTH_SHORT).show();
+            });
+            return null;
+        });
     }
 
     @Override
@@ -217,8 +275,21 @@ public class MainActivity extends AppCompatActivity implements ProductAdapter.Pr
         new AlertDialog.Builder(this)
                 .setMessage("Hapus produk ini?")
                 .setPositiveButton("Hapus", (dialog, which) -> {
-                    db.deleteProduct(product);
-                    refreshList();
+                    repository.deleteProduct(product.getId()).thenAccept(success -> {
+                        runOnUiThread(() -> {
+                            if (success) {
+                                Toast.makeText(MainActivity.this, "Produk dihapus", Toast.LENGTH_SHORT).show();
+                                refreshList();
+                            } else {
+                                Toast.makeText(MainActivity.this, "Gagal menghapus produk", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }).exceptionally(throwable -> {
+                        runOnUiThread(() -> {
+                            Toast.makeText(MainActivity.this, "Error deleting product: " + throwable.getMessage(), Toast.LENGTH_SHORT).show();
+                        });
+                        return null;
+                    });
                 })
                 .setNegativeButton("Batal", null)
                 .show();

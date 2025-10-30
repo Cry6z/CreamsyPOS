@@ -53,7 +53,14 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryV
         Transaction transaction = transactions.get(position);
         
         // Format transaction ID with leading zeros
-        String formattedId = String.format("%03d", transaction.getTransactionId());
+        String transactionIdStr = transaction.getTransactionId();
+        int transactionIdInt;
+        try {
+            transactionIdInt = Integer.parseInt(transactionIdStr);
+        } catch (NumberFormatException e) {
+            transactionIdInt = 0;
+        }
+        String formattedId = String.format("%03d", transactionIdInt);
         
         // Create styled text for transaction title
         String fullText = "Transaksi #" + formattedId;

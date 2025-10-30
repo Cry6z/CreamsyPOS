@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -23,7 +24,7 @@ public class HistoryActivity extends AppCompatActivity implements HistoryAdapter
     private LinearLayout layoutEmptyState;
     private TextView tvTransactionCount, tvTotalRevenue;
     private Button btnBack, btnClearHistory;
-    private DatabaseHelper db;
+    private SupabaseRepository repository;
     private HistoryAdapter adapter;
 
     @Override
@@ -31,8 +32,8 @@ public class HistoryActivity extends AppCompatActivity implements HistoryAdapter
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
 
-        // Initialize database
-        db = new DatabaseHelper(this);
+        // Initialize repository
+        repository = new SupabaseRepository(this);
 
         // Initialize views
         initViews();
@@ -58,7 +59,7 @@ public class HistoryActivity extends AppCompatActivity implements HistoryAdapter
 
     private void setupRecyclerView() {
         recyclerViewHistory.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new HistoryAdapter(this, db.getAllTransactions(), this);
+        adapter = new HistoryAdapter(this, new ArrayList<>(), this);
         recyclerViewHistory.setAdapter(adapter);
     }
 
@@ -66,19 +67,12 @@ public class HistoryActivity extends AppCompatActivity implements HistoryAdapter
         btnBack.setOnClickListener(v -> finish());
 
         btnClearHistory.setOnClickListener(v -> {
-            List<Transaction> transactions = db.getAllTransactions();
-            if (transactions.isEmpty()) {
-                Toast.makeText(this, "Tidak ada riwayat untuk dihapus", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
             new AlertDialog.Builder(this)
                     .setTitle("Hapus Semua Riwayat")
                     .setMessage("Apakah Anda yakin ingin menghapus semua riwayat transaksi? Tindakan ini tidak dapat dibatalkan.")
                     .setPositiveButton("Hapus Semua", (dialog, which) -> {
-                        db.clearAllTransactions();
-                        loadHistoryData();
-                        Toast.makeText(this, "Semua riwayat transaksi telah dihapus", Toast.LENGTH_SHORT).show();
+                        // For now, just show a message - full implementation would need clear all transactions API
+                        Toast.makeText(this, "Fitur hapus semua riwayat dalam pengembangan", Toast.LENGTH_SHORT).show();
                     })
                     .setNegativeButton("Batal", null)
                     .show();
@@ -86,27 +80,57 @@ public class HistoryActivity extends AppCompatActivity implements HistoryAdapter
     }
 
     private void loadHistoryData() {
-        List<Transaction> transactions = db.getAllTransactions();
-        
-        // Update statistics
-        updateStatistics();
-        
-        // Update RecyclerView
-        adapter.updateData(transactions);
-        
-        // Show/hide empty state
-        if (transactions.isEmpty()) {
-            layoutEmptyState.setVisibility(View.VISIBLE);
-            recyclerViewHistory.setVisibility(View.GONE);
-        } else {
-            layoutEmptyState.setVisibility(View.GONE);
-            recyclerViewHistory.setVisibility(View.VISIBLE);
-        }
+        repository.getAllTransactions().thenAccept(transactions -> {
+            runOnUiThread(() -> {
+                try {
+                    // Ensure transactions is not null
+                    List<Transaction> safeTransactions = transactions;
+                    if (safeTransactions == null) {
+                        safeTransactions = new ArrayList<>();
+                    }
+                    
+                    // Update RecyclerView
+                    adapter.updateData(safeTransactions);
+                    
+                    // Update statistics
+                    updateStatistics(safeTransactions);
+                    
+                    // Show/hide empty state
+                    if (safeTransactions.isEmpty()) {
+                        layoutEmptyState.setVisibility(View.VISIBLE);
+                        recyclerViewHistory.setVisibility(View.GONE);
+                    } else {
+                        layoutEmptyState.setVisibility(View.GONE);
+                        recyclerViewHistory.setVisibility(View.VISIBLE);
+                    }
+                } catch (Exception e) {
+                    Toast.makeText(this, "Error displaying history: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }).exceptionally(throwable -> {
+            runOnUiThread(() -> {
+                // Show empty state on error
+                layoutEmptyState.setVisibility(View.VISIBLE);
+                recyclerViewHistory.setVisibility(View.GONE);
+                Toast.makeText(this, "Error loading history: " + throwable.getMessage(), Toast.LENGTH_SHORT).show();
+            });
+            return null;
+        });
     }
 
-    private void updateStatistics() {
-        int transactionCount = db.getTransactionCount();
-        double totalRevenue = db.getTotalRevenue();
+    private void updateStatistics(List<Transaction> transactions) {
+        if (transactions == null) {
+            transactions = new ArrayList<>();
+        }
+        
+        int transactionCount = transactions.size();
+        double totalRevenue = 0;
+        
+        for (Transaction transaction : transactions) {
+            if (transaction != null) {
+                totalRevenue += transaction.getTotal();
+            }
+        }
         
         tvTransactionCount.setText(String.valueOf(transactionCount));
         
@@ -123,8 +147,8 @@ public class HistoryActivity extends AppCompatActivity implements HistoryAdapter
     // HistoryAdapter.HistoryActionListener implementation
     @Override
     public void onDeleteTransaction(Transaction transaction) {
-        db.deleteTransaction(transaction.getTransactionId());
-        onTransactionDeleted();
+        // For now, just show a message - full implementation would need delete transaction API
+        Toast.makeText(this, "Fitur hapus transaksi dalam pengembangan", Toast.LENGTH_SHORT).show();
     }
 
     @Override
